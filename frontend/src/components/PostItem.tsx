@@ -24,7 +24,7 @@ const PostItem: FC<PostProps> = ({ post }) => {
       <p className="text-gray-600 text-sm mt-1">
         Created At: {new Date(post.createdAt).toLocaleDateString()}
       </p>
-      <div className="mt-4 flex gap-x-4">
+      <div className="mt-2 flex gap-x-4">
         <Link
           href={`/post/${post.id}`}
           className={`text-blue-500 hover:underline ${!isAuthenticated ? "pointer-events-none opacity-50" : ""

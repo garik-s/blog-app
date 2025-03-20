@@ -22,7 +22,7 @@ const PostList: FC = () => {
 
     return (
         <div className="space-y-4">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-2">
                 <h1 className="text-2xl font-bold">Blog Posts</h1>
                 {isAuthenticated ? (
                     <Link href="/post/create">
@@ -41,7 +41,7 @@ const PostList: FC = () => {
             </div>
 
             {!isAuthenticated && (
-                <div className="text-red-500 text-center">
+                <div className="text-red-500">
                     <p>You need to be logged in to create, update, or delete posts.</p>
                 </div>
             )}

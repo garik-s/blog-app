@@ -14,7 +14,7 @@ const Pagination: FC = () => {
             <button
                 onClick={() => setPage(currentPage - 1)}
                 disabled={currentPage <= 1}
-                className="bg-blue-500 cursor-pointer text-white py-2 px-4 rounded"
+                className="bg-blue-500 cursor-pointer text-white py-1 px-4 rounded"
             >
                 {"<"}
             </button>
@@ -24,7 +24,7 @@ const Pagination: FC = () => {
             <button
                 onClick={() => setPage(currentPage + 1)}
                 disabled={currentPage >= totalPages}
-                className="bg-blue-500 cursor-pointer text-white py-2 px-4 rounded"
+                className="bg-blue-500 cursor-pointer text-white py-1 px-4 rounded"
             >
                 {">"}
             </button>
