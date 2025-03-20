@@ -1,25 +1,27 @@
-"use client"
-import { useState } from 'react';
-import usePostStore from '@/store/usePostStore';
+"use client";
+import { useState, useEffect } from "react";
+import usePostStore from "@/store/usePostStore";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const Search = () => {
     const { setSearchQuery, setPage } = usePostStore();
-    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-        setSearchQuery(e.target.value);
+    const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+    useEffect(() => {
+        setSearchQuery(debouncedSearchTerm);
         setPage(1);
-    };
+    }, [debouncedSearchTerm, setSearchQuery, setPage]);
 
     return (
-        <div className="mb-4" >
+        <div className="mb-4">
             <input
                 type="text"
                 value={searchTerm}
-                onChange={handleSearch}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search by title"
-                className="p-2 border rounded"
+                className="p-2 border rounded w-full"
             />
         </div>
     );

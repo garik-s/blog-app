@@ -16,7 +16,7 @@ const PostItem: FC<PostProps> = ({ post }) => {
   };
 
   return (
-    <div className="container border p-4 rounded shadow-lg bg-gray">
+    <div className="container border p-4 rounded shadow-lg bg-gray-100">
       <h2 className="text-xl font-semibold">{post.title}</h2>
       <p className="text-gray-800 mt-2">{post.content}</p>
       <p className="text-gray-600 text-sm mt-2">
@@ -31,7 +31,7 @@ const PostItem: FC<PostProps> = ({ post }) => {
         </Link>
         <button
           onClick={() => handleDelete(post.id)}
-          className="text-red-500 hover:underline"
+          className="text-red-500 hover:underline cursor-pointer"
         >
           Delete
         </button>

@@ -2,8 +2,6 @@
 import { FC } from "react";
 import { Post } from "@/types";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import usePostStore from "@/store/usePostStore";
 
@@ -46,7 +44,7 @@ const UpdatePostForm: FC<PostFormProps> = ({ post }) => {
           rows={4}
         />
       </div>
-      <div className="flex justify-between">
+      <div className="flex gap-x-4">
         <button type="button" className="cursor-pointer bg-gray-200 text-black px-4 py-2 rounded" onClick={() => router.push("/")}>
           Cancel
         </button>

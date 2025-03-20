@@ -2,7 +2,7 @@ const Post = require('../models/Posts');
 const { Sequelize } = require('sequelize');
 
 exports.getPosts = async (req, res) => {
-  const { page = 1, limit = 2, searchQuery = "" } = req.query;
+  const { page = 1, limit = 4, searchQuery = "" } = req.query;
 
 
   try {

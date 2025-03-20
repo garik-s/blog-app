@@ -6,15 +6,8 @@ import UpdatePostForm from "@/components/UpdatePostForm";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 
-interface PostEditPageProps {
-  params: {
-    id: string;
-  };
-}
-
-
-export default async function PostEditPage({ params }: PostEditPageProps) {
-  const post = await getPostId(params);
+export default async function PostEditPage({params}: {params: Promise<{ id: string }>}) {
+  const post = await getPostId(await params);
   
   return (
     <div className="max-w-xl mx-auto p-4">
@@ -39,6 +32,6 @@ export async function generateStaticParams() {
 }
 
 const getPostId = async (params: { id: string }): Promise<Post> => {
-  const { data } = await axios.get<Post>(`${API_URL}/posts/${(await params).id}`);
+  const { data } = await axios.get<Post>(`${API_URL}/posts/${params.id}`);
   return data;
 };

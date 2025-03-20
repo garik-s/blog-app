@@ -1,35 +1,32 @@
 "use client"
-
 import { FC } from "react";
 import usePostStore from "@/store/usePostStore";
 
 const Pagination: FC = () => {
+    const { posts, totalPages, currentPage, setPage } = usePostStore();
 
-    const { totalPages, currentPage, searchQuery, fetchPosts, setPage } = usePostStore();
-    
-    const handlePageChange = async (newPage: number) => {
-        setPage(newPage);
-        await fetchPosts(newPage, searchQuery);
-    };
+    if (posts.length === 0) {
+        return <></>
+    }
 
     return (
         <div className="flex justify-center items-center mt-4 gap-x-4">
             <button
-                onClick={() => handlePageChange(currentPage - 1)}
+                onClick={() => setPage(currentPage - 1)}
                 disabled={currentPage <= 1}
-                className="bg-blue-500 cursor-pointer text-white p-2 rounded"
+                className="bg-blue-500 cursor-pointer text-white py-2 px-4 rounded"
             >
-                Previous
+                {"<"}
             </button>
             <span>
-                Page {currentPage} of {totalPages}
+                {currentPage} of {totalPages}
             </span>
             <button
-                onClick={() => handlePageChange(currentPage + 1)}
+                onClick={() => setPage(currentPage + 1)}
                 disabled={currentPage >= totalPages}
-                className="bg-blue-500 cursor-pointer text-white p-2 rounded"
+                className="bg-blue-500 cursor-pointer text-white py-2 px-4 rounded"
             >
-                Next
+                {">"}
             </button>
         </div>
     );

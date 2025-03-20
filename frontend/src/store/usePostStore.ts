@@ -16,21 +16,29 @@ interface PostStore {
   totalPages: number;
   currentPage: number;
   searchQuery: string;
+  loading: boolean;
   fetchPosts: (page: number, searchQuery: string) => Promise<void>;
   createPost: (newPost: Omit<Post, 'id' | 'createdAt'>) => Promise<void>;
   updatePost: (id: number, updatedPost: Partial<Post>) => Promise<void>;
   deletePost: (id: number) => Promise<void>;
   setSearchQuery: (query: string) => void;
   setPage: (page: number) => void;
+  resetStore: () => void;
 }
 
-const usePostStore = create<PostStore>((set) => ({
+const initialState = {
   posts: [],
   totalPages: 1,
   currentPage: 1,
   searchQuery: '',
+  loading: false,
+};
+
+const usePostStore = create<PostStore>((set) => ({
+  ...initialState,
 
   fetchPosts: async (page, searchQuery) => {
+    set({ loading: true });
     try {
       const { data } = await axios.get(`${API_URL}/posts`, {
         params: { page, searchQuery },
@@ -40,10 +48,13 @@ const usePostStore = create<PostStore>((set) => ({
     } catch (error) {
       toast.error('Failed to fetch posts!');
       console.error('Error fetching posts:', error);
+    } finally {
+      set({ loading: false });
     }
   },
 
   createPost: async (newPost) => {
+    set({ loading: true });
     try {
       const { data } = await axios.post<Post>(`${API_URL}/posts`, newPost);
       set((state) => ({ posts: [...state.posts, data] }));
@@ -51,23 +62,31 @@ const usePostStore = create<PostStore>((set) => ({
     } catch (error) {
       toast.error('Failed to create post!');
       console.error('Error creating post:', error);
+    } finally {
+      set({ loading: false });
     }
   },
 
   updatePost: async (id, updatedPost) => {
+    set({ loading: true });
     try {
       await axios.put(`${API_URL}/posts/${id}`, updatedPost);
       set((state) => ({
-        posts: state.posts.map((post) => (post.id === id ? { ...post, ...updatedPost } : post)),
+        posts: state.posts.map((post) =>
+          post.id === id ? { ...post, ...updatedPost } : post
+        ),
       }));
       toast.success('Post updated successfully!');
     } catch (error) {
       toast.error('Failed to update post!');
       console.error('Error updating post:', error);
+    } finally {
+      set({ loading: false });
     }
   },
 
   deletePost: async (id) => {
+    set({ loading: true });
     try {
       await axios.delete(`${API_URL}/posts/${id}`);
       set((state) => ({
@@ -77,6 +96,8 @@ const usePostStore = create<PostStore>((set) => ({
     } catch (error) {
       toast.error('Failed to delete post!');
       console.error('Error deleting post:', error);
+    } finally {
+      set({ loading: false });
     }
   },
 
@@ -86,6 +107,10 @@ const usePostStore = create<PostStore>((set) => ({
 
   setPage: (page) => {
     set({ currentPage: page });
+  },
+
+  resetStore: () => {
+    set(initialState);
   },
 }));
 
